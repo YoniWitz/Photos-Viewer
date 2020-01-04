@@ -17,17 +17,12 @@
               solo-inverted
               hide-details
               :items="heightKeys"
-                
               label="Filter by Height"
             ></v-select>
             <v-spacer></v-spacer>
-            <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn large depressed color="blue" :value="false">
-                <v-icon>mdi-arrow-up</v-icon>
-              </v-btn>
-              <v-btn large depressed color="blue" :value="true">
-                <v-icon>mdi-arrow-down</v-icon>
-              </v-btn>
+            <v-btn-toggle v-model="grayscale" mandatory>
+              <v-btn large depressed color="red" :value="false" >not grayscaled</v-btn>
+              <v-btn large depressed color="green" :value="true" >grayscale</v-btn>
             </v-btn-toggle>
           </template>
         </v-toolbar>
@@ -93,26 +88,14 @@ export default {
       photosPerPageArray: [4, 8, 12],
       photos: [],
       search: "",
-      sortDesc: false,
+      grayscale: false,
       page: 1,
       photosPerPage: 4,
       filterByHeight: "",
       heightKeys: []
     };
   },
-  computed: {
-    filteredPhotos() {
-      return this.photos.filter((photo) => {
-        return !this.search || (photo.height.includes(this.search));
-      })
-    },
-    numberOfPages() {
-      return Math.ceil(this.filteredPhotos.length / this.photosPerPage);
-    },
-    filteredHeightKeys() {
-      return this.heightKeys.filter(key => key !== `Name`);
-    }
-  },
+
   methods: {
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;
@@ -122,6 +105,23 @@ export default {
     },
     updatePhotosPerPage(number) {
       this.photosPerPage = number;
+    }
+  },
+  computed: {
+    filteredPhotos() {
+      return this.photos.filter(photo => {
+        return !this.search || photo.height.includes(this.search);
+      });
+    },
+    numberOfPages() {
+      return Math.ceil(this.filteredPhotos.length / this.photosPerPage);
+    }
+  },
+  watch: {
+    grayscale: function() {
+      this.grayscale? 
+      this.photos.forEach(photo => photo.url += "?grayscale") :
+      this.photos.forEach(photo => photo.url = photo.url.replace("?grayscale", ""));
     }
   },
   beforeMount() {
@@ -135,12 +135,11 @@ export default {
       };
       return photo;
     });
-    
+
     photosArray.forEach(photoUrl => {
       let height = photoUrl.split("/").slice(-1)[0];
-      if (this.heightKeys.indexOf(height) == -1) 
-        this.heightKeys.push(height);
-    });    
+      if (this.heightKeys.indexOf(height) == -1) this.heightKeys.push(height);
+    });
     this.heightKeys.sort();
   }
 };
