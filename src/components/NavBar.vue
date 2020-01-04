@@ -2,7 +2,7 @@
   <nav id="main-nav">
     <router-link to="/">Home</router-link>|
     <router-link :to="{name : 'about'}">About</router-link>|
-    <!-- <router-link :to="{name : 'poll'}">Poll</router-link>  -->
+    <router-link :to="{name : 'table'}">Table</router-link> 
   </nav>
 </template>
 
