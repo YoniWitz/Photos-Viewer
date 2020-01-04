@@ -4,7 +4,7 @@
       :items="filteredPhotos"
       :items-per-page.sync="photosPerPage"
       :page="page"
-      :search="filterByHeight"
+      :search="filterByDimensions.height"
       hide-default-footer
     >
       <template v-slot:header>
@@ -12,17 +12,28 @@
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer></v-spacer>
             <v-select
-              v-model="filterByHeight"
+              v-model="filterByDimensions.height"
               flat
               solo-inverted
               hide-details
+              clearable
               :items="heightKeys"
               label="Filter by Height"
             ></v-select>
             <v-spacer></v-spacer>
+            <v-select
+              v-model="filterByDimensions.width"
+              flat
+              solo-inverted
+              hide-details
+              clearable
+              :items="widthKeys"
+              label="Filter by Width"
+            ></v-select>
+            <v-spacer></v-spacer>
             <v-btn-toggle v-model="grayscale" mandatory>
-              <v-btn large depressed color="red" :value="false" >not grayscaled</v-btn>
-              <v-btn large depressed color="green" :value="true" >grayscale</v-btn>
+              <v-btn large depressed color="red" :value="false">not grayscaled</v-btn>
+              <v-btn large depressed color="green" :value="true">grayscale</v-btn>
             </v-btn-toggle>
           </template>
         </v-toolbar>
@@ -91,8 +102,13 @@ export default {
       grayscale: false,
       page: 1,
       photosPerPage: 4,
-      filterByHeight: "",
-      heightKeys: []
+      filterByDimensions: {
+        height: "",
+        width: ""
+      },
+      filterByDimensionsJson: "[]",
+      heightKeys: [],
+      widthKeys: []
     };
   },
 
@@ -109,6 +125,7 @@ export default {
   },
   computed: {
     filteredPhotos() {
+      let parcedSearch = JSON.parse(this.filterByDimensionsJson);
       return this.photos.filter(photo => {
         return !this.search || photo.height.includes(this.search);
       });
@@ -119,9 +136,14 @@ export default {
   },
   watch: {
     grayscale: function() {
-      this.grayscale? 
-      this.photos.forEach(photo => photo.url += "?grayscale") :
-      this.photos.forEach(photo => photo.url = photo.url.replace("?grayscale", ""));
+      this.grayscale
+        ? this.photos.forEach(photo => (photo.url += "?grayscale"))
+        : this.photos.forEach(
+            photo => (photo.url = photo.url.replace("?grayscale", ""))
+          );
+    },
+    filterByDimensions: function() {
+      this.filterByDimensionsJson = JSON.stringify(this.filterByDimensions);
     }
   },
   beforeMount() {
@@ -137,10 +159,14 @@ export default {
     });
 
     photosArray.forEach(photoUrl => {
-      let height = photoUrl.split("/").slice(-1)[0];
+      let splitArray = photoUrl.split("/");
+      let height = splitArray.slice(-1)[0];
+      let width = splitArray.slice(-2)[0];
       if (this.heightKeys.indexOf(height) == -1) this.heightKeys.push(height);
+      if (this.widthKeys.indexOf(height) == -1) this.widthKeys.push(width);
     });
     this.heightKeys.sort();
+    this.widthKeys.sort();
   }
 };
 </script>
