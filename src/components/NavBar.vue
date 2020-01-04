@@ -1,9 +1,18 @@
 <template>
-  <nav id="main-nav">
-    <router-link to="/">Home</router-link>|
-    <router-link :to="{name : 'about'}">About</router-link>|
-    <router-link :to="{name : 'table'}">Table</router-link> 
-  </nav>
+  <div>
+    <v-app-bar color="deep-purple accent-4" dark>
+      <v-toolbar-title>Photo Viewer</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items>
+        <v-btn dark to="/">Home</v-btn>
+        <v-btn    dark :to="{ path: 'about' }">vuetify</v-btn>         
+        <!-- <v-btn to="d">Table</v-btn> -->
+      </v-toolbar-items>
+
+    </v-app-bar>
+  </div>
 </template>
 
 <script>
@@ -13,22 +22,5 @@ export default {
 </script>
 
 <style scoped>
-ul{
-  list-style-type: none;
-  padding:0
-}
-#nav {
-  padding: 30px;
-}
-a.router-link-exact-active{
-  color:purple;
-}
-a{
-  color: #42b983;
-}
-li{
-  display:inline-block;
-  margin:10px;
-}
 
 </style>
