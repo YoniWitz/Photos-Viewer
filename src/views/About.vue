@@ -1,5 +1,17 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-app>
+    <v-content>
+      <HelloWorld />
+    </v-content>
+  </v-app>
 </template>
+
+<script>
+import HelloWorld from "@/components/HelloWorld";
+export default {
+  name: "about",
+  components: {
+    HelloWorld
+  }
+};
+</script>
