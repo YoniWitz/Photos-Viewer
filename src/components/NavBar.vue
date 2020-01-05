@@ -1,26 +1,33 @@
 <template>
-  <div>
-    <v-app-bar color="deep-purple accent-4" dark>
-      <v-toolbar-title>Photo Viewer</v-toolbar-title>
+  <v-container>
+    <v-toolbar fixed class="indigo" dark>
+      <v-toolbar-title class="mr-4" dark v-on:click="navigateTo('/')">Photo Viewer</v-toolbar-title>
+
+      <v-toolbar-items>
+         <v-btn text dark router :to="{ path: 'about' }">Images</v-btn>
+      
+      </v-toolbar-items>
 
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn dark to="/">Home</v-btn>
-        <v-btn    dark :to="{ path: 'about' }">vuetify</v-btn>         
-        <!-- <v-btn to="d">Table</v-btn> -->
+       
+        <!-- <v-btn flat dark router to="d">Table</v-btn> -->
       </v-toolbar-items>
-
-    </v-app-bar>
-  </div>
+    </v-toolbar>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  methods:{
+    navigateTo(route){
+
+    }
+  }
 };
 </script>
 
 <style scoped>
-
 </style>
