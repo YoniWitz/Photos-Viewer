@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import AuthService from "@/services/AuthService";
+import AuthService from "@/services/AuthServiceRegister";
 export default {
   data() {
     return {
