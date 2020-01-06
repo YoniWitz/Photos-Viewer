@@ -28,6 +28,7 @@
                     type="password"
                   />
                 </v-form>
+                 <v-toolbar-title color="deep-purple" v-if="feedback">{{feedback}}</v-toolbar-title>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
@@ -47,16 +48,27 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      feedback:""
     };
   },
   methods: {
     async register() {
-      const response = await AuthService.register({
-        email: this.email,
-        password: this.password
-      });
-      console.log(response.data);
+      if (this.email && this.password) {
+        const response = await AuthService.register({
+          email: this.email,
+          password: this.password
+        })
+          .then(res => {
+            this.feedback = "";
+            console.log(res.data.msg);
+          })
+          .catch(err => {
+            this.feedback = "some error occurred";
+          });
+      } else {
+        this.feedback = "must enter username and password";
+      }
     }
   }
 };
