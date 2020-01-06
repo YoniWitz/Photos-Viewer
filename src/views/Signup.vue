@@ -1,39 +1,26 @@
 <template>
   <v-app id="inspire">
     <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            cols="12"
-            sm="8"
-            md="4"
-          >
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar
-                color="primary"
-                dark
-                flat
-              >
+              <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Register</v-toolbar-title>
                 <v-spacer />
-                             
               </v-toolbar>
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Login"
-                    name="login"
+                    v-model="email"
+                    label="Email"
+                    name="email"
                     prepend-icon="person"
                     type="text"
                   />
 
                   <v-text-field
+                    v-model="password"
                     id="password"
                     label="Password"
                     name="password"
@@ -44,7 +31,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary">Submit</v-btn>
+                <v-btn color="primary" v-on:click="register">Submit</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -55,9 +42,22 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String,
-    },
+import AuthService from "@/services/AuthService";
+export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    async register() {
+      const response = await AuthService.register({
+        email: this.email,
+        password: this.password
+      });
+      console.log(response.data);
+    }
   }
+};
 </script>
