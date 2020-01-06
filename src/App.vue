@@ -28,7 +28,7 @@ export default {
   name: "App",
   data() {
     return {
-      authenticated: false
+      authenticated: null
     };
   },
   methods: {
@@ -36,20 +36,26 @@ export default {
       this.authenticated = status;
     },
     navigateTo(route) {
-      this.$router.push(route);
+      if (this.authenticated) this.$router.push(route);
     },
     logout() {
       this.authenticated = false;
+      window.localStorage.setItem('authenticated', JSON.stringify(this.authenticated));
     }
   },
   components: {
     // NavBar
   },
-  mounted() {
-    if (!this.authenticated) {
-      this.$router.replace({ name: "login" });
+  created() {
+    if (typeof Storage !== "undefined") {
+      this.authenticated = JSON.parse(window.localStorage.getItem("authenticated")) || false;
     }
   }
+  // mounted() {
+  //   if (!this.authenticated) {
+  //     this.$router.replace({ name: "login" });
+  //   }
+  // }
 };
 </script>
 

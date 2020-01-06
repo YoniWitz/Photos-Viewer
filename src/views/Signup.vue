@@ -32,6 +32,7 @@
                     :rules="passwordRules"
                   />
                 </v-form>
+                <v-toolbar-title v-if="feedback">{{feedback}}</v-toolbar-title>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
@@ -54,6 +55,7 @@ export default {
       email: "",
       password: "",
       valid: false,
+      feedback: "",
       passwordRules: [
         v => !!v || "Password is required",
         v => (v && v.length >= 6) || "Password must be at least 6 characters"
@@ -75,7 +77,14 @@ export default {
           password: this.password
         })
           .then(res => {
+            let msg = res.data.msg
             console.log(res.data.msg);
+            if (msg === "Successfully registered") {              
+              this.$router.replace({ name: "login" });
+            } else if (msg === "already registered") {
+              console.log("not authenticated");
+               this.feedback = "This email is already registered";
+            }
           })
           .catch(err => {
             console.log(err.msg);
