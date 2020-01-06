@@ -2,6 +2,7 @@
   <v-container>
     <v-toolbar fixed class="indigo" dark>
       <v-toolbar-title class="mr-4" dark v-on:click="navigateTo('/')">Photo Viewer</v-toolbar-title>
+     
 
       <v-toolbar-items>
         <v-btn text dark router :to="{ path: 'photos' }">Photos</v-btn>
@@ -11,6 +12,7 @@
       <v-spacer></v-spacer>
       <v-btn text dark router :to="{ path: 'login' }">Login</v-btn>
       <v-btn text dark router :to="{ path: 'signup' }">Sign Up</v-btn>
+       <v-toolbar-title class="mr-4" dark v-on:click="logout">Logout</v-toolbar-title>
       <v-toolbar-items>
         <!-- <v-btn flat dark router to="d">Table</v-btn> -->
       </v-toolbar-items>
@@ -24,6 +26,9 @@ export default {
   methods: {
     navigateTo(route) {
       this.$router.push(route);
+    },
+    logout(){
+      console.log("you have successfully logged out")
     }
   }
 };

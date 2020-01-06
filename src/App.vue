@@ -1,20 +1,63 @@
 <template>
   <v-app>
     <v-content>
-      <NavBar />
-      <router-view />
+      <v-container>
+        <v-toolbar fixed class="indigo" dark>
+          <v-toolbar-title class="mr-4" dark v-on:click="navigateTo('/photos')">Photo Viewer</v-toolbar-title>
+
+          <v-toolbar-items>
+            <v-btn text dark router :to="{ path: 'about-vuetify' }">Vuetify</v-btn>
+          </v-toolbar-items>
+
+          <v-spacer></v-spacer>
+          <v-btn v-if="!authenticated" text dark router :to="{ path: 'login' }">Login</v-btn>
+          <v-btn v-if="!authenticated" text dark router :to="{ path: 'signup' }">Sign Up</v-btn>
+          <v-btn v-if="authenticated" to="/login" replace text dark v-on:click="logout">Logout</v-btn>
+        </v-toolbar>
+      </v-container>
+      <!-- <NavBar /> -->
+      <router-view @authenticated="setAuthenticated" />
     </v-content>
   </v-app>
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
+// import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "App",
-
+  data() {
+    return {
+      authenticated: false
+    };
+  },
+  methods: {
+    setAuthenticated(status) {
+      this.authenticated = status;
+    },
+    navigateTo(route) {
+      this.$router.push(route);
+    },
+    logout() {
+      this.authenticated = false;
+    }
+  },
   components: {
-    NavBar
+    // NavBar
+  },
+  mounted() {
+    if (!this.authenticated) {
+      this.$router.replace({ name: "login" });
+    }
   }
 };
 </script>
+
+<style scoped>
+.mr-4 {
+  cursor: pointer;
+}
+.mr-4 hover {
+  color: black;
+}
+</style>
