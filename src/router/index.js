@@ -12,7 +12,7 @@ const routes = [
     path: '/',
     redirect: {
       name: "login"
-  }
+    }
   },
   {
     path: '/about-vuetify',
@@ -40,6 +40,24 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login', '/signup'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = typeof Storage !== "undefined" ?
+    JSON.parse(window.localStorage.getItem("authenticated")) || false
+    : true;
+
+  if(!authRequired && loggedIn){
+    next({name:'photos'})
+  }
+  if (authRequired && !loggedIn) {
+    next({name:'login'})
+  } else {
+    next();
+  }
 })
 
 export default router
