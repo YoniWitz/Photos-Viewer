@@ -36,7 +36,7 @@ export default {
       this.authenticated = status;
     },
     navigateTo(route) {
-      if (this.authenticated) this.$router.push(route);
+      this.$router.push(route);
     },
     logout() {
       this.authenticated = false;
