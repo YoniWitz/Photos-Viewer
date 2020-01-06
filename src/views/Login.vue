@@ -83,6 +83,9 @@ export default {
             console.log(res.data.msg);
             if (msg === "authenticated") {
               this.$emit("authenticated", true);
+
+              window.localStorage.setItem('authenticated', JSON.stringify(true));
+
               this.$router.replace({ name: "photos" });
             } else if (msg === "register") {
               console.log("not authenticated");
