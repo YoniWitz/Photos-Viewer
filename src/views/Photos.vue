@@ -1,10 +1,9 @@
 <template>
   <v-container fluid>
     <v-data-iterator
-      :items="filteredPhotos"
+      :items="photos"
       :items-per-page.sync="photosPerPage"
       :page="page"
-      :search="filterByDimensions.height"
       hide-default-footer
     >
       <template v-slot:header>
@@ -12,7 +11,7 @@
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer></v-spacer>
             <v-select
-              v-model="filterByDimensions.height"
+              v-model="height"
               flat
               solo-inverted
               hide-details
@@ -22,7 +21,7 @@
             ></v-select>
             <v-spacer></v-spacer>
             <v-select
-              v-model="filterByDimensions.width"
+              v-model="width"
               flat
               solo-inverted
               hide-details
@@ -92,21 +91,17 @@
 </template>
 
 <script>
-import photosArray from "@/assets/photos.js";
+import PhotosService from "@/services/PhotosService";
 export default {
   data() {
     return {
       photosPerPageArray: [4, 8, 12],
       photos: [],
-      search: "",
       grayscale: false,
       page: 1,
       photosPerPage: 4,
-      filterByDimensions: {
-        height: "",
-        width: ""
-      },
-      filterByDimensionsJson: "[]",
+      height: 0,
+      width: 0,
       heightKeys: [],
       widthKeys: []
     };
@@ -121,52 +116,62 @@ export default {
     },
     updatePhotosPerPage(number) {
       this.photosPerPage = number;
+    },
+    async getPhotos() {
+      await PhotosService.getPhotos({
+        grayscale: this.grayscale,
+        height: this.height || 0,
+        width: this.width || 0
+      })
+        .then(res => {
+          this.heightKeys = [];
+          this.widthKeys = [];
+          this.populateData(res.data);
+        })
+        .catch(err => {
+          console.log(`error occurred: ${err}`);
+        });
+    },
+    populateData(data) {
+      this.photos = data;
+
+      this.photos.forEach(photoObject => {
+        //populate drop down height
+        if (this.heightKeys.indexOf(photoObject.height) == -1)
+          this.heightKeys.push(photoObject.height);
+        //populate drop down width
+        if (this.widthKeys.indexOf(photoObject.width) == -1)
+          this.widthKeys.push(photoObject.width);
+      });
+
+      this.heightKeys.sort();
+      this.widthKeys.sort();
     }
   },
   computed: {
-    filteredPhotos() {
-      let parcedSearch = JSON.parse(this.filterByDimensionsJson);
-      return this.photos.filter(photo => {
-        return !this.search || photo.height.includes(this.search);
-      });
-    },
     numberOfPages() {
-      return Math.ceil(this.filteredPhotos.length / this.photosPerPage);
+      return Math.ceil(this.photos.length / this.photosPerPage);
     }
   },
   watch: {
     grayscale: function() {
-      this.grayscale
-        ? this.photos.forEach(photo => (photo.url += "?grayscale"))
-        : this.photos.forEach(
-            photo => (photo.url = photo.url.replace("?grayscale", ""))
-          );
+      this.getPhotos();
     },
-    filterByDimensions: function() {
-      this.filterByDimensionsJson = JSON.stringify(this.filterByDimensions);
+    height: function() {
+      this.getPhotos();
+    },
+    width: function() {
+      this.getPhotos();
     }
   },
-  beforeMount() {
-    this.photos = photosArray.map(photoUrl => {
-      let splitArray = photoUrl.split("/");
-      let photo = {
-        url: photoUrl,
-        height: splitArray.slice(-1)[0],
-        width: splitArray.slice(-2)[0],
-        id: splitArray.slice(-3)[0]
-      };
-      return photo;
-    });
-
-    photosArray.forEach(photoUrl => {
-      let splitArray = photoUrl.split("/");
-      let height = splitArray.slice(-1)[0];
-      let width = splitArray.slice(-2)[0];
-      if (this.heightKeys.indexOf(height) == -1) this.heightKeys.push(height);
-      if (this.widthKeys.indexOf(height) == -1) this.widthKeys.push(width);
-    });
-    this.heightKeys.sort();
-    this.widthKeys.sort();
+  async mounted() {
+    await PhotosService.getAllPhotos()
+      .then(res => {
+        this.populateData(res.data);
+      })
+      .catch(err => {
+        console.log(`error occurred: ${err}`);
+      });
   }
 };
 </script>

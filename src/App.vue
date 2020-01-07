@@ -36,11 +36,14 @@ export default {
       this.authenticated = status;
     },
     navigateTo(route) {
-      this.$router.push(route);
+      if (this.$router.currentRoute.path !== route) this.$router.push(route);
     },
     logout() {
       this.authenticated = false;
-      window.localStorage.setItem('authenticated', JSON.stringify(this.authenticated));
+      window.localStorage.setItem(
+        "authenticated",
+        JSON.stringify(this.authenticated)
+      );
     }
   },
   components: {
@@ -48,7 +51,8 @@ export default {
   },
   created() {
     if (typeof Storage !== "undefined") {
-      this.authenticated = JSON.parse(window.localStorage.getItem("authenticated")) || false;
+      this.authenticated =
+        JSON.parse(window.localStorage.getItem("authenticated")) || false;
     }
   }
   // mounted() {

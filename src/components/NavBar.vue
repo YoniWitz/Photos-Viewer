@@ -25,6 +25,7 @@ export default {
   name: "NavBar",
   methods: {
     navigateTo(route) {
+      if(this.$router.currentRoute.path !== route)
       this.$router.push(route);
     },
     logout(){
