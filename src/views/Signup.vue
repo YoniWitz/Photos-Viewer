@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import AuthService from "@/services/AuthServiceSignup";
+import AuthService from "@/services/AuthService";
 export default {
   data() {
     return {
@@ -71,19 +71,20 @@ export default {
       this.$refs.form.reset();
     },
     async signup() {
+      this.feedback = "";
       if (this.$refs.form.validate()) {
         const response = await AuthService.signup({
           email: this.email,
           password: this.password
         })
           .then(res => {
-            let msg = res.data.msg
+            let msg = res.data.msg;
             console.log(res.data.msg);
-            if (msg === "Successfully registered") {              
-              this.$router.replace({ name: "login" });
+            if (msg === "Successfully registered") {
+              this.feedback = "Successfully registered, proceed to login";
             } else if (msg === "already registered") {
               console.log("not authenticated");
-               this.feedback = "This email is already registered";
+              this.feedback = "This email is already registered";
             }
           })
           .catch(err => {

@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import AuthService from "@/services/AuthServiceLogin";
+import AuthService from "@/services/AuthService";
 export default {
   data() {
     return {
@@ -79,17 +79,20 @@ export default {
           password: this.password
         })
           .then(res => {
-            let msg = res.data.msg
+            let msg = res.data.msg;
             console.log(res.data.msg);
             if (msg === "authenticated") {
               this.$emit("authenticated", true);
 
-              window.localStorage.setItem('authenticated', JSON.stringify(true));
+              window.localStorage.setItem(
+                "authenticated",
+                JSON.stringify(true)
+              );
 
               this.$router.replace({ name: "photos" });
             } else if (msg === "register") {
               console.log("not authenticated");
-               this.feedback = "This email isn't registered";
+              this.feedback = "This email isn't registered";
             } else {
               this.feedback = "please check email and password";
             }
