@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AboutVuetify from '@/views/AboutVuetify.vue'
 import Photos from '@/views/Photos.vue'
 import Login from '@/views/Login.vue'
 import Signup from '@/views/Signup.vue'
@@ -13,11 +12,6 @@ const routes = [
     redirect: {
       name: "login"
     }
-  },
-  {
-    path: '/about-vuetify',
-    name: 'about',
-    component: AboutVuetify
   },
   {
     path: '/photos',

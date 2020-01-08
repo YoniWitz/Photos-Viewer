@@ -5,10 +5,6 @@
         <v-toolbar fixed class="indigo" dark>
           <v-toolbar-title class="mr-4" dark v-on:click="navigateTo('/photos')">Photo Viewer</v-toolbar-title>
 
-          <v-toolbar-items>
-            <v-btn text dark router :to="{ path: 'about-vuetify' }">Vuetify</v-btn>
-          </v-toolbar-items>
-
           <v-spacer></v-spacer>
           <v-btn v-if="!authenticated" text dark router :to="{ path: 'login' }">Login</v-btn>
           <v-btn v-if="!authenticated" text dark router :to="{ path: 'signup' }">Sign Up</v-btn>
