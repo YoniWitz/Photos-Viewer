@@ -2,7 +2,7 @@
 
 The app displays photos from links saved in a csv. The app requires user registration and login. Once logged in, the user can filter the photos based on width and height. User can also request the photos in grayscale.
 
-<image src="./images/snake_snapshot.bmp">
+<image src="./client/src/assets/photos-viewer.png">
 
 ## Summary
 I wrote this web app in response to an assignment I received as part of a hiring process.
