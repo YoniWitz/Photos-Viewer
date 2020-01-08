@@ -18,26 +18,31 @@ module.exports = {
         let grayscale = req.params.grayscale;
         let height = req.params.height;
         let width = req.params.width;
+        let photosPerPage = Number(req.params.photosPerPage);
+        let page = Number(req.params.page);
 
-        for (let i = 0; i < photos.length; i++) {
-            photos[i].url = photos[i].url.replace("?grayscale", "")
-            if (grayscale === "true") photos[i].url += "?grayscale";
-        }
-
-        let returnedArray = photos;
+        let tempArray = photos;
+        let returnedArray = [];
 
         if (height !== "0") {
-            returnedArray = returnedArray.filter(photoObject => {
-                return !height || photoObject.height === height;
+            tempArray = tempArray.filter(photo => {
+                return !height || photo.height === height;
             });
         }
 
         if (width !== "0") {
-            returnedArray = returnedArray.filter(photoObject => {
-                return !width || photoObject.width === width;
+            tempArray = tempArray.filter(photo => {
+                return !width || photo.width === width;
             });
         }
 
-        res.send(returnedArray)
+        for (let i = (page - 1) * photosPerPage; (i < tempArray.length && i < ((page - 1) * photosPerPage + photosPerPage)); i++) {
+            tempArray[i].url = tempArray[i].url.replace("?grayscale", "")
+            if (grayscale === "true") tempArray[i].url += "?grayscale";
+            returnedArray.push(tempArray[i]);
+        }
+
+       
+        res.json(returnedArray);
     }
 }
