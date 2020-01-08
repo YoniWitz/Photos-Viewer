@@ -1,6 +1,5 @@
-//let photos = require("../../assets/photos")
-
 let photos = require("../../assets/photos").map(photoUrl => {
+    console.log(photoUrl)
     let splitUrl = photoUrl.split("/");
     let photo = {
         url: photoUrl,

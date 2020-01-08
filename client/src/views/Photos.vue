@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-data-iterator
       :items="photos"
-      :items-per-page.sync="photosPerPage"
+      :items-per-page.sync="urlParams.photosPerPage"
       :page="page"
       hide-default-footer
     >
@@ -11,7 +11,7 @@
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer></v-spacer>
             <v-select
-              v-model="height"
+              v-model="urlParams.height"
               flat
               solo-inverted
               hide-details
@@ -21,7 +21,7 @@
             ></v-select>
             <v-spacer></v-spacer>
             <v-select
-              v-model="width"
+              v-model="urlParams.width"
               flat
               solo-inverted
               hide-details
@@ -30,7 +30,7 @@
               label="Filter by Width"
             ></v-select>
             <v-spacer></v-spacer>
-            <v-btn-toggle v-model="grayscale" mandatory>
+            <v-btn-toggle v-model="urlParams.grayscale" mandatory>
               <v-btn large depressed color="red" :value="false">not grayscaled</v-btn>
               <v-btn large depressed color="green" :value="true">grayscale</v-btn>
             </v-btn-toggle>
@@ -60,7 +60,7 @@
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-btn dark text color="primary" class="ml-2" v-on="on">
-                {{ photosPerPage }}
+                {{ urlParams.photosPerPage }}
                 <v-icon>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
@@ -97,11 +97,14 @@ export default {
     return {
       photosPerPageArray: [4, 8, 12],
       photos: [],
-      grayscale: false,
       page: 1,
-      photosPerPage: 4,
-      height: 0,
-      width: 0,
+      urlParams: {
+        height: 0,
+        width: 0,
+        grayscale: false,
+        photosPerPage: 4
+      },
+
       heightKeys: [],
       widthKeys: []
     };
@@ -115,59 +118,51 @@ export default {
       if (this.page - 1 >= 1) this.page -= 1;
     },
     updatePhotosPerPage(number) {
-      this.photosPerPage = number;
+      this.urlParams.photosPerPage = number;
     },
     async getPhotos() {
       await PhotosService.getPhotos({
-        grayscale: this.grayscale,
-        height: this.height || 0,
-        width: this.width || 0
+        grayscale: this.urlParams.grayscale,
+        height: this.urlParams.height || 0,
+        width: this.urlParams.width || 0
       })
         .then(res => {
-          this.heightKeys = [];
-          this.widthKeys = [];
-          this.populateData(res.data);
+          this.photos = res.data;
         })
         .catch(err => {
           console.log(`error occurred: ${err}`);
         });
-    },
-    populateData(data) {
-      this.photos = data;
-
-      this.photos.forEach(photoObject => {
-        //populate drop down height
-        if (this.heightKeys.indexOf(photoObject.height) == -1)
-          this.heightKeys.push(photoObject.height);
-        //populate drop down width
-        if (this.widthKeys.indexOf(photoObject.width) == -1)
-          this.widthKeys.push(photoObject.width);
-      });
-
-      this.heightKeys.sort();
-      this.widthKeys.sort();
     }
   },
   computed: {
     numberOfPages() {
-      return Math.ceil(this.photos.length / this.photosPerPage);
+      return Math.ceil(this.photos.length / this.urlParams.photosPerPage);
     }
   },
   watch: {
-    grayscale: function() {
-      this.getPhotos();
-    },
-    height: function() {
-      this.getPhotos();
-    },
-    width: function() {
-      this.getPhotos();
+    urlParams: {
+      handler: function() {
+        this.getPhotos();
+      },
+      deep: true
     }
   },
   async mounted() {
     await PhotosService.getAllPhotos()
       .then(res => {
-        this.populateData(res.data);
+        this.photos = res.data;
+
+        this.photos.forEach(photo => {
+          //populate drop down height
+          if (this.heightKeys.indexOf(photo.height) == -1)
+            this.heightKeys.push(photo.height);
+          //populate drop down width
+          if (this.widthKeys.indexOf(photo.width) == -1)
+            this.widthKeys.push(photo.width);
+        });
+
+        this.heightKeys.sort();
+        this.widthKeys.sort();
       })
       .catch(err => {
         console.log(`error occurred: ${err}`);
