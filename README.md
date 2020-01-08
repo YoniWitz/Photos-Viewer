@@ -5,10 +5,21 @@ The app displays photos from links saved in a csv. The app requires user registr
 <image src="./client/src/assets/photos-viewer.png">
 
 ## Summary
-I wrote this web app in response to an assignment I received as part of a hiring process.
-This project covers a lot of different aspects of a Full Stack developer's responsibilites. 
-It includes both Back End and Front End. Running a server and implementing http requests. CSV parsing, basic user registration and login. Two main APIs: Users basic authentication and a photos API, returning all or filtered by param. The API supports pagination as well.
-In the front end, the user must register and login before they can see the photos. The user can decide what dimension photos they'd like to see and how many photos to display per page.
+I wrote this web app as an assignment I received as part of a hiring process.
+This project covers a lot of different aspects of a Full Stack developer's responsibilites, including:
+
+### Back End
+Running a server on Node and 
+Web services and http requsts using Express
+CSV parsing
+User registration and login API
+Photos API, with and without params
+Pagination
+
+### Front End
+Registration and Login pages
+Responsive and filtered photos in grid display
+
 
 ##  Installation Instructions
 
