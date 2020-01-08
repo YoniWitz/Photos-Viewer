@@ -5,7 +5,7 @@ export default {
         return Api.post('photos', PhotoData)
     },
     getPhotos(params) {
-        return Api.get(`photos/height/${params.height}/width/${params.width}/grayscale/${params.grayscale}`)
+        return Api.get(`photos/height/${params.height}/width/${params.width}/grayscale/${params.grayscale}/page/${params.page}/photosPerPage/${params.photosPerPage}`)
     },
     getAllPhotos() {
         return Api.get(`photos`)
