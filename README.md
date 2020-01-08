@@ -9,16 +9,16 @@ I wrote this web app as an assignment I received as part of a hiring process.
 This project covers a lot of different aspects of a Full Stack developer's responsibilites, including:
 
 ### Back End
-Running a server on Node and 
-Web services and http requsts using Express
-CSV parsing
-User registration and login API
-Photos API, with and without params
+Running a server on Node  
+Web services and http requsts using Express  
+CSV parsing  
+User registration and login API  
+Photos API, with and without params  
 Pagination
 
 ### Front End
-Registration and Login pages
-Responsive and filtered photos in grid display
+Registration and Login pages  
+Responsive and filtered photos in grid display  
 
 
 ##  Installation Instructions
