@@ -155,13 +155,7 @@ export default {
     }
   },
   async mounted() {
-    await PhotosService.getPhotos({
-      grayscale: this.grayscale,
-      height: this.height || 0,
-      width: this.width || 0,
-      photosPerPage: this.photosPerPage,
-      page: this.page
-    })
+    await PhotosService.getAllPhotos()
       .then(res => {
         this.photos = res.data;
 
