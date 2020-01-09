@@ -11,7 +11,7 @@ module.exports = {
         let photosPerPage = Number(req.params.photosPerPage);
         let page = Number(req.params.page);
 
-        let tempArray = (await photosObject).photos;
+        let tempArray = (await photosObject).photos.map(photo => Object.assign({}, photo));
 
         let returnedObject = {
             photos: [],
@@ -31,8 +31,9 @@ module.exports = {
             });
         }
 
-        for (let i = (page - 1) * photosPerPage; (i < tempArray.length && i < ((page - 1) * photosPerPage + photosPerPage)); i++) {
-            tempArray[i].url = tempArray[i].url.replace("?grayscale", "")
+        const startingIndex = (page - 1) * photosPerPage;
+        const endingIndex = (page - 1) * photosPerPage + photosPerPage;
+        for (let i = startingIndex; (i < tempArray.length && i < endingIndex); i++) {
             if (grayscale === "true") tempArray[i].url += "?grayscale";
             returnedObject.photos.push(tempArray[i]);
         }
