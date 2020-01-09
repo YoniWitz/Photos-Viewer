@@ -1,6 +1,12 @@
 const csv = require('csv-parser');
 const fs = require('fs');
 
+let photosObject = {
+  photos: null,
+  heightKeys: [],
+  widthKeys: []
+}
+
 async function parseCsv() {
   const promise = await new Promise((resolve, rej) => {
     let photosArray = []
@@ -15,7 +21,7 @@ async function parseCsv() {
       })
   })
 
-  const photos = await promise.map(photoUrl => {
+  photosObject.photos = await promise.map(photoUrl => {
     let splitUrl = photoUrl.split("/");
     let photo = {
       url: photoUrl,
@@ -23,10 +29,18 @@ async function parseCsv() {
       width: splitUrl.slice(-2)[0],
       id: splitUrl.slice(-3)[0]
     };
+
+    //populate drop down height
+    if (photosObject.heightKeys.indexOf(photo.height) == -1)
+      photosObject.heightKeys.push(photo.height)
+    //populate drop down width
+    if (photosObject.widthKeys.indexOf(photo.width) == -1)
+      photosObject.widthKeys.push(photo.width)
+
     return photo;
   })
-  console.log(photos)
-  return photos;
+
+  return photosObject;
 }
 module.exports = parseCsv();
 

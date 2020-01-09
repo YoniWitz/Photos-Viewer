@@ -127,7 +127,7 @@ export default {
         page: this.page
       })
         .then(res => {
-          this.photos = res.data;
+          this.photos = res.data.photos;
         })
         .catch(err => {
           console.log(`error occurred: ${err}`);
@@ -155,18 +155,18 @@ export default {
     }
   },
   async mounted() {
-    await PhotosService.getAllPhotos()
+    await PhotosService.getPhotos({
+        grayscale: this.grayscale,
+        height: this.height || 0,
+        width: this.width || 0,
+        photosPerPage: this.photosPerPage,
+        page: this.page
+      })
       .then(res => {
-        this.photos = res.data;
+        this.photos = res.data.photos;
 
-        this.photos.forEach(photo => {
-          //populate drop down height
-          if (this.heightKeys.indexOf(photo.height) == -1)
-            this.heightKeys.push(photo.height);
-          //populate drop down width
-          if (this.widthKeys.indexOf(photo.width) == -1)
-            this.widthKeys.push(photo.width);
-        });
+        this.heightKeys = res.data.heightKeys;
+        this.widthKeys = res.data.widthKeys;
 
         this.heightKeys.sort();
         this.widthKeys.sort();
