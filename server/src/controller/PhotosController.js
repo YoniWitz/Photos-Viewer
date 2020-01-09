@@ -1,27 +1,19 @@
-let photos = require("../../assets/photos").map(photoUrl => {
-    console.log(photoUrl)
-    let splitUrl = photoUrl.split("/");
-    let photo = {
-        url: photoUrl,
-        height: splitUrl.slice(-1)[0],
-        width: splitUrl.slice(-2)[0],
-        id: splitUrl.slice(-3)[0]
-    };
-    return photo;
-})
+const photos = require("../../assets/photos");
 
+//console.log(photos);
 module.exports = {
-    getAllPhotos(req, res) {
-        res.send(photos)
+    async getAllPhotos(req, res) {
+        res.send(await photos)
     },
-    getPhotos(req, res) {
+    async getPhotos(req, res) {
         let grayscale = req.params.grayscale;
         let height = req.params.height;
         let width = req.params.width;
         let photosPerPage = Number(req.params.photosPerPage);
         let page = Number(req.params.page);
 
-        let tempArray = photos;
+        let tempArray = await photos;
+        console.log(await photos);
         let returnedArray = [];
 
         if (height !== "0") {
@@ -41,8 +33,7 @@ module.exports = {
             if (grayscale === "true") tempArray[i].url += "?grayscale";
             returnedArray.push(tempArray[i]);
         }
-
-       
-        res.json(returnedArray);
+      
+        res.send(returnedArray);
     }
 }
