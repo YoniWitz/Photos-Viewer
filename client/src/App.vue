@@ -11,15 +11,12 @@
           <v-btn v-if="authenticated" to="/login" replace text dark v-on:click="logout">Logout</v-btn>
         </v-toolbar>
       </v-container>
-      <!-- <NavBar /> -->
       <router-view @authenticated="setAuthenticated" />
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import NavBar from "@/components/NavBar.vue";
-
 export default {
   name: "App",
   data() {
@@ -42,20 +39,12 @@ export default {
       );
     }
   },
-  components: {
-    // NavBar
-  },
   created() {
     if (typeof Storage !== "undefined") {
       this.authenticated =
         JSON.parse(window.localStorage.getItem("authenticated")) || false;
     }
   }
-  // mounted() {
-  //   if (!this.authenticated) {
-  //     this.$router.replace({ name: "login" });
-  //   }
-  // }
 };
 </script>
 
@@ -65,5 +54,13 @@ export default {
 }
 .mr-4 hover {
   color: black;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
