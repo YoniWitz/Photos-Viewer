@@ -74,7 +74,7 @@ export default {
     async login() {
       this.feedback = "";
       if (this.$refs.form.validate()) {
-        const response = await AuthService.login({
+        await AuthService.login({
           email: this.email,
           password: this.password
         })

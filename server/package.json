@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon src\\app"
+    "serve": "nodemon src\\app",
+    "start": "concurrently \"npm run serve\" \"npm run serve --prefix ../client\""
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.0.2",
     "cors": "^2.8.5",
     "csv": "^0.3.7",
     "csv-parser": "^2.3.2",
