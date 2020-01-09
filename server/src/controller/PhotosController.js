@@ -1,9 +1,8 @@
-const photos = require("../../assets/photos");
+const photosObject = require("../../assets/photos");
 
-//console.log(photos);
 module.exports = {
     async getAllPhotos(req, res) {
-        res.send(await photos)
+        res.send(await photosObject)
     },
     async getPhotos(req, res) {
         let grayscale = req.params.grayscale;
@@ -12,9 +11,13 @@ module.exports = {
         let photosPerPage = Number(req.params.photosPerPage);
         let page = Number(req.params.page);
 
-        let tempArray = await photos;
-        console.log(await photos);
-        let returnedArray = [];
+        let tempArray = (await photosObject).photos;
+
+        let returnedObject = {
+            photos: [],
+            heightKeys: (await photosObject).heightKeys,
+            widthKeys: (await photosObject).widthKeys
+        };
 
         if (height !== "0") {
             tempArray = tempArray.filter(photo => {
@@ -31,9 +34,9 @@ module.exports = {
         for (let i = (page - 1) * photosPerPage; (i < tempArray.length && i < ((page - 1) * photosPerPage + photosPerPage)); i++) {
             tempArray[i].url = tempArray[i].url.replace("?grayscale", "")
             if (grayscale === "true") tempArray[i].url += "?grayscale";
-            returnedArray.push(tempArray[i]);
+            returnedObject.photos.push(tempArray[i]);
         }
-      
-        res.send(returnedArray);
+
+        res.send(returnedObject);
     }
 }
