@@ -1,8 +1,8 @@
 import Api from '@/services/Api'
 
 export default {
-    AddNewPhoto(PhotoData) {
-        return Api.post('photos', PhotoData)
+    AddNewPhoto(photoData) {
+        return Api.post('photos', photoData)
     },
     getPhotos(params) {
         return Api.get(`photos/height/${params.height}/width/${params.width}/grayscale/${params.grayscale}/page/${params.page}/photosPerPage/${params.photosPerPage}`)
@@ -10,13 +10,13 @@ export default {
     getAllPhotos() {
         return Api.get(`photos`)
     },
-    ShowPhoto(PhotoId) {
-        return Api.get(`photos/${PhotoId}`)
+    ShowPhoto(photoId) {
+        return Api.get(`photos/${photoId}`)
     },
     PutPhoto(photo) {
         return Api.put(`photos/${photo.id}`, photo)
     },
-    DeletePhoto(PhotoId) {
-        return Api.delete(`photos/${PhotoId}`)
+    DeletePhoto(photoId) {
+        return Api.delete(`photos/${photoId}`)
     }
 }

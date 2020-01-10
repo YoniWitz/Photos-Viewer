@@ -1,12 +1,17 @@
 <template>
   <v-toolbar fixed class="indigo" dark>
-    <v-btn class="mr-4" text dark router :to="{ path: 'photos' }">Photos Viewer</v-btn>
+    <v-btn text dark router :to="{ path: 'photos' }">Photos Viewer</v-btn>
 
     <v-spacer></v-spacer>
     <v-btn v-if="!user" text dark router :to="{ path: 'login' }">Login</v-btn>
     <v-btn v-if="!user" btn text dark router :to="{ path: 'signup' }">Sign Up</v-btn>
-    <v-toolbar-title v-if="user" replace text dark>{{ user.email }}</v-toolbar-title>
+    <v-btn disabled v-if="user" replace text dark>{{ user.email }}</v-btn>
     <v-btn v-if="user" replace text dark v-on:click.native="logout">Logout</v-btn>
+
+    <v-snackbar v-model="logoutSnackbar" color="green">
+      {{ logoutSnackbarText }}
+      <v-btn color="pink" text @click="logoutSnackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-toolbar>
 </template>
 <script>
@@ -15,7 +20,9 @@ export default {
   name: "Navbar",
   data() {
     return {
-      user: null
+      user: null,
+      logoutSnackbar: false,
+      logoutSnackbarText: "Logout Successful"
     };
   },
   methods: {
@@ -24,6 +31,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
+          this.logoutSnackbar = true;
           this.$router.push({ name: "login" });
         });
     }
@@ -44,7 +52,4 @@ export default {
 .mr-4 {
   cursor: pointer;
 }
-/* .mr-4 hover {
-  color: black;
-} */
 </style>
