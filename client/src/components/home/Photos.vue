@@ -91,14 +91,12 @@
 </template>
 
 <script>
-import firebase from "firebase";
 import PhotosService from "@/services/PhotosService";
 export default {
   data() {
     return {
       photosPerPageArray: [4, 8, 12],
       photos: [],
-
       height: 0,
       width: 0,
       grayscale: false,
@@ -130,9 +128,9 @@ export default {
         .then(res => {
           this.photos = res.data.photos;
         })
-        .catch(err => {
-          // console.log(`error occurred: ${err}`);
-        });
+        // .catch(err => {
+        // console.log(`error occurred: ${err}`);
+        // });
     }
   },
   watch: {
@@ -156,7 +154,6 @@ export default {
     }
   },
   async mounted() {
-    // console.log(firebase.auth().currentUser)
     await PhotosService.getPhotos({
       grayscale: this.grayscale,
       height: this.height || 0,
@@ -173,9 +170,9 @@ export default {
         this.heightKeys.sort();
         this.widthKeys.sort();
       })
-      .catch(err => {
-        // console.log(`error occurred: ${err}`);
-      });
+      // .catch(err => {
+      //  console.log(`error occurred: ${err}`);
+      // });
   }
 };
 </script>
