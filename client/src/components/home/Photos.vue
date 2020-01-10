@@ -7,7 +7,7 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar dark color="blue darken-3" class="mb-1">
+        <v-toolbar fixed class="indigo" dark>
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer></v-spacer>
             <v-select
