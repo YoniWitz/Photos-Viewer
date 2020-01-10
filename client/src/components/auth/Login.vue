@@ -78,7 +78,6 @@ export default {
           .auth()
           .signInWithEmailAndPassword(this.email, this.password)
           .then(() => {
-            //console.log(cred)
             this.$router.push({ name: "photos" });
           })
           .catch(err => {

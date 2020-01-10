@@ -31,10 +31,14 @@
             ></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="grayscale" mandatory>
-              <v-btn large depressed color="red" :value="false">not grayscaled</v-btn>
-              <v-btn large depressed color="green" :value="true">grayscale</v-btn>
+              <v-btn large depressed class="purple yellow--text" :value="false">Color</v-btn>
+              <v-btn large depressed class="white black--text" :value="true">Grayscale</v-btn>
             </v-btn-toggle>
           </template>
+          <v-snackbar v-model="photosSnackbar" color="red">
+            {{ photosSnackbarText }}
+            <v-btn color="black" text @click="photosSnackbar = false">Close</v-btn>
+          </v-snackbar>
         </v-toolbar>
       </template>
 
@@ -103,7 +107,9 @@ export default {
       page: 1,
       photosPerPage: 4,
       heightKeys: [],
-      widthKeys: []
+      widthKeys: [],
+      photosSnackbar: false,
+      photosSnackbarText: ""
     };
   },
 
@@ -128,9 +134,10 @@ export default {
         .then(res => {
           this.photos = res.data.photos;
         })
-        // .catch(err => {
-        // console.log(`error occurred: ${err}`);
-        // });
+        .catch(err => {
+          this.photosSnackbar = true;
+          this.photosSnackbarText = err.message;
+        });
     }
   },
   watch: {
@@ -170,9 +177,10 @@ export default {
         this.heightKeys.sort();
         this.widthKeys.sort();
       })
-      // .catch(err => {
-      //  console.log(`error occurred: ${err}`);
-      // });
+      .catch(err => {
+        this.photosSnackbar = true;
+        this.photosSnackbarText = err.message;
+      });
   }
 };
 </script>
