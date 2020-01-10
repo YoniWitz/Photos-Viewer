@@ -7,8 +7,8 @@ The app displays photos from links saved in a csv. The app requires user registr
 ##  Installation Instructions (must have Node installed)
 
 1. Download Repository
-2. From root folder, 'cd client', then run 'npm install'
-3. In the 'server' folder run 'npm install' then 'npm run start'
+2. From root folder, 'cd client', then 'npm install'
+3. From root folder, 'cd server', then 'npm install' then 'npm run start'
 4. in browser, redirect to localhost where 'client' is running on (typically:  http://localhost:8080/)
 
 ## Summary

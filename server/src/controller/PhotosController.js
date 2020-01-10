@@ -1,9 +1,6 @@
 const photosObject = require("../../assets/photos");
 
 module.exports = {
-    async getAllPhotos(req, res) {
-        res.send(await photosObject)
-    },
     async getPhotos(req, res) {
         let grayscale = req.params.grayscale;
         let height = req.params.height;

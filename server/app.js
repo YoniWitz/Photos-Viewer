@@ -13,7 +13,6 @@ app.use(cors())
 const port = 3009
 
 app.get('/photos/height/:height/width/:width/grayscale/:grayscale/page/:page/photosPerPage/:photosPerPage', PhotosController.getPhotos)
-app.get('/photos', PhotosController.getAllPhotos)
 
 app.listen(port, console.log('listening'))
 
