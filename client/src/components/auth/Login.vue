@@ -6,7 +6,7 @@
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>Signup</v-toolbar-title>
+                <v-toolbar-title>Login form</v-toolbar-title>
                 <v-spacer />
               </v-toolbar>
               <v-card-text>
@@ -36,7 +36,8 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary" v-on:click="signup" :disabled="!valid">Submit</v-btn>
+
+                <v-btn color="primary" v-on:click="login" :disabled="!valid">Login</v-btn>
                 <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
               </v-card-actions>
             </v-card>
@@ -48,14 +49,14 @@
 </template>
 
 <script>
-import AuthService from "@/services/AuthService";
+import firebase from 'firebase'
 export default {
   data() {
     return {
       email: "",
       password: "",
-      valid: false,
       feedback: "",
+      valid: false,
       passwordRules: [
         v => !!v || "Password is required",
         v => (v && v.length >= 6) || "Password must be at least 6 characters"
@@ -70,26 +71,17 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-    async signup() {
+    login(){
       this.feedback = "";
       if (this.$refs.form.validate()) {
-        const response = await AuthService.signup({
-          email: this.email,
-          password: this.password
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        .then(cred =>{
+          //console.log(cred)
+          this.$router.push({name: 'photos'});
         })
-          .then(res => {
-            let msg = res.data.msg;
-            console.log(res.data.msg);
-            if (msg === "Successfully registered") {
-              this.feedback = "Successfully registered, proceed to login";
-            } else if (msg === "already registered") {
-              console.log("not authenticated");
-              this.feedback = "This email is already registered";
-            }
-          })
-          .catch(err => {
-            console.log(err.msg);
-          });
+        .catch(err => {
+          this.feedback = err.message;
+        })
       }
     }
   }
