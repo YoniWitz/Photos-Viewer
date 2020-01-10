@@ -32,13 +32,13 @@
                     :rules="passwordRules"
                   />
                 </v-form>
-                <v-toolbar-title v-if="feedback">{{feedback}}</v-toolbar-title>
+                <span v-if="feedback" class="red--text">{{feedback}}</span>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
 
                 <v-btn color="primary" v-on:click="login" :disabled="!valid">Login</v-btn>
-                <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
+                <v-btn color="warning" @click="reset">Reset Form</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 export default {
   data() {
     return {
@@ -71,17 +71,19 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-    login(){
+    login() {
       this.feedback = "";
       if (this.$refs.form.validate()) {
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        .then(cred =>{
-          //console.log(cred)
-          this.$router.push({name: 'photos'});
-        })
-        .catch(err => {
-          this.feedback = err.message;
-        })
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            //console.log(cred)
+            this.$router.push({ name: "photos" });
+          })
+          .catch(err => {
+            this.feedback = "Email and password don't exist";
+          });
       }
     }
   }

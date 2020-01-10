@@ -32,12 +32,12 @@
                     :rules="passwordRules"
                   />
                 </v-form>
-                <v-toolbar-title v-if="feedback">{{feedback}}</v-toolbar-title>
+                <span v-if="feedback" class="red--text">{{feedback}}</span>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
                 <v-btn color="primary" v-on:click="signup" :disabled="!valid">Submit</v-btn>
-                <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
+                <v-btn color="warning" class="mr-4" @click="reset">Reset Form</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -49,7 +49,7 @@
 
 <script>
 import db from "@/firebase/init";
-import firebase from 'firebase'
+import firebase from "firebase";
 export default {
   data() {
     return {
@@ -71,20 +71,22 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-    signup(){
+    signup() {
       this.feedback = "";
       if (this.$refs.form.validate()) {
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .then(() =>{
-          this.$router.push({name: 'photos'})
-        })
-        .catch(err =>{
-          this.feedback = err.message;
-        })
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            this.$router.push({ name: "photos" });
+          })
+          .catch(err => {
+            this.feedback = err.message;
+          });
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
