@@ -9,7 +9,7 @@ The app displays photos from links saved in a csv. The app requires user registr
 1. Download Repository
 2. In the 'client' folder, run 'npm install'
 3. In the 'server' folder run 'npm install' then 'npm run start'
-4. in browser, redirect to localhost where 'client' is running on
+4. in browser, redirect to localhost where 'client' is running on (typically:  http://localhost:8080/)
 
 ## Summary
 I wrote this web app as an assignment I received as part of a hiring process.
@@ -19,11 +19,11 @@ This project covers a lot of different aspects of a Full Stack developer's respo
 Running a server on Node  
 Web services and http requsts using Express  
 CSV parsing  
-User registration and login API  
 Photos API, with and without params  
 Pagination
 
 ### Front End
+User Authentication
 Registration and Login pages  
 Responsive and filtered photos in grid display  
 
