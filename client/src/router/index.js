@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Photos from '@/views/Photos.vue'
-import Login from '@/views/Login.vue'
-import Signup from '@/views/Signup.vue'
+import Photos from '@/components/home/Photos.vue'
+import Login from '@/components/auth/Login.vue'
+import Signup from '@/components/auth/Signup.vue'
+import firebase from 'firebase'
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,10 @@ const routes = [
   {
     path: '/photos',
     name: 'photos',
-    component: Photos
+    component: Photos,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',
@@ -37,19 +41,20 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login', '/signup'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = typeof Storage !== "undefined" ?
-    JSON.parse(window.localStorage.getItem("authenticated")) || false
-    : true;
-
-  if(!authRequired && loggedIn){
-    next({name:'photos'})
+  // check to see if route requires auth
+  if (to.matched.some(rec => rec.meta.requiresAuth)) {
+    //check auth state of user
+    let user = firebase.auth().currentUser;
+    if (user) {
+      //if user is loggen in
+      next();
+    } else {
+      //redirect to login
+      next({ name: 'login' });
+    }
   }
-  if (authRequired && !loggedIn) {
-    next({name:'login'})
-  } else {
+  else{
+    //if page doesnt require login, go next
     next();
   }
 })
