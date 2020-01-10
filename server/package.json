@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon src\\app",
+    "serve": "nodemon app",
     "start": "concurrently \"npm run serve\" \"npm run serve --prefix ../client\""
   },
   "author": "",
