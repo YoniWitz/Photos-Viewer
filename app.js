@@ -10,9 +10,15 @@ app.use(morgan('tiny'))
 app.use(bodyParser.json())
 app.use(cors())
 
-const port = 3009
+const port = process.env.PORT || 3009;
+
+app.use(express.static(__dirname + '/client/dist'));
 
 app.get('/photos/height/:height/width/:width/grayscale/:grayscale/page/:page/photosPerPage/:photosPerPage', PhotosController.getPhotos)
 
-app.listen(port, console.log('listening'))
+app.get(/.*/, function(req,res){
+    res.sendfile(__dirname+'/client/dist/index.html');
+})
+
+app.listen(port, console.log(`listening on ${port}`))
 
