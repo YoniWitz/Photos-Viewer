@@ -26,7 +26,7 @@ Photos API, with and without params
 Pagination
 
 ### Front End
-User Authentication
+User Authentication  
 Registration and Login pages  
 Responsive and filtered photos in grid display  
 
