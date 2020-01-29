@@ -2,6 +2,8 @@
 
 The app displays photos from links saved in a csv. The app requires user registration and login. Once logged in, the user can filter the photos based on width and height. User can also request the photos in grayscale.
 
+## You can use it [here](http://photos-viewer.herokuapp.com/)
+
 <image src="./client/src/assets/photos-viewer.png">
 
 ##  Installation Instructions (must have Node installed)

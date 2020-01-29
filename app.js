@@ -16,7 +16,7 @@ app.get('/photos/height/:height/width/:width/grayscale/:grayscale/page/:page/pho
 
 app.use(express.static(__dirname + '/client/dist'));
 app.get(/.*/, function(req,res){
-    res.sendfile(path.resolve(__dirname+'/client/dist/index.html'));
+    res.sendFile(path.resolve(__dirname+'/client/dist/index.html'));
 })
 
 app.listen(port, console.log(`listening on ${port}`))
