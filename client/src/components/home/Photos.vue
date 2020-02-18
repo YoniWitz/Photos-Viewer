@@ -184,3 +184,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.v-select-select {
+	padding: 4px;
+	line-height: 24px;
+	height: 24px;
+	font-family: Tahoma;
+	font-size: 12px;
+	color: green;
+}
+</style>
