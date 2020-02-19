@@ -81,7 +81,7 @@ export default {
             this.$router.push({ name: "photos" });
           })
           .catch(err => {
-            this.feedback = "Email and password don't exist";
+            this.feedback = err + "Email and password don't exist";
           });
       }
     }

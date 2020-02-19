@@ -10,20 +10,18 @@
         <v-toolbar fixed class="indigo" dark>
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer></v-spacer>
-            <v-select
+            <v-select          
               v-model="height"
-              flat
-              solo-inverted
+              flat             
               hide-details
               clearable
               :items="heightKeys"
               label="Filter by Height"
             ></v-select>
             <v-spacer></v-spacer>
-            <v-select
+            <v-select           
               v-model="width"
-              flat
-              solo-inverted
+              flat            
               hide-details
               clearable
               :items="widthKeys"
@@ -184,3 +182,4 @@ export default {
   }
 };
 </script>
+
