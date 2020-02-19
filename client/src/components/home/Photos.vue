@@ -12,8 +12,7 @@
             <v-spacer></v-spacer>
             <v-select          
               v-model="height"
-              flat
-             
+              flat             
               hide-details
               clearable
               :items="heightKeys"
@@ -22,8 +21,7 @@
             <v-spacer></v-spacer>
             <v-select           
               v-model="width"
-              flat
-             
+              flat            
               hide-details
               clearable
               :items="widthKeys"
