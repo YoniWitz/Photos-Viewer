@@ -30,5 +30,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "resolutions": {
+    "deeply": "^3.1.0",
+    "minimist": "^1.2.3",
+    "lodash": "^4.17.19"
   }
 }
